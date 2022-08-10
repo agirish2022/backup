@@ -1,0 +1,30 @@
+terraform_version = "1.2.5"
+
+outputs = {}
+
+resources = {
+	"google_project.project": {
+		"address":        "google_project.project",
+		"depends_on":     [],
+		"deposed_key":    "",
+		"index":          null,
+		"mode":           "data",
+		"module_address": "",
+		"name":           "project",
+		"provider_name":  "registry.terraform.io/hashicorp/google",
+		"tainted":        false,
+		"type":           "google_project",
+		"values": {
+			"auto_create_network": null,
+			"billing_account":     "0090FE-ED3D81-AF8E3B",
+			"folder_id":           "572309186391",
+			"id":                  "projects/internal-test-prj-ly",
+			"labels":              {},
+			"name":                "internal-test-prj-ly",
+			"number":              "1056283549093",
+			"org_id":              "",
+			"project_id":          "internal-test-prj-ly",
+			"skip_delete":         null,
+		},
+	},
+}

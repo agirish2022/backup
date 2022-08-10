@@ -1,0 +1,49 @@
+terraform_version = "1.2.6"
+
+outputs = {}
+
+resources = {
+	"google_compute_network.shared_vpc": {
+		"address":        "google_compute_network.shared_vpc",
+		"depends_on":     [],
+		"deposed_key":    "",
+		"index":          null,
+		"mode":           "data",
+		"module_address": "",
+		"name":           "shared_vpc",
+		"provider_name":  "registry.terraform.io/hashicorp/google",
+		"tainted":        false,
+		"type":           "google_compute_network",
+		"values": {
+			"description":  "",
+			"gateway_ipv4": "",
+			"id":           "projects/internal-test-prj-ly/global/networks/apigee-network",
+			"name":         "apigee-network",
+			"project":      "internal-test-prj-ly",
+			"self_link":    "https://www.googleapis.com/compute/v1/projects/internal-test-prj-ly/global/networks/apigee-network",
+			"subnetworks_self_links": [
+				"https://www.googleapis.com/compute/v1/projects/internal-test-prj-ly/regions/asia-east1/subnetworks/apigee-network",
+				"https://www.googleapis.com/compute/v1/projects/internal-test-prj-ly/regions/europe-west2/subnetworks/apigee-network",
+				"https://www.googleapis.com/compute/v1/projects/internal-test-prj-ly/regions/southamerica-west1/subnetworks/apigee-network",
+				"https://www.googleapis.com/compute/v1/projects/internal-test-prj-ly/regions/us-south1/subnetworks/apigee-network",
+				"https://www.googleapis.com/compute/v1/projects/internal-test-prj-ly/regions/us-east7/subnetworks/apigee-network",
+				"https://www.googleapis.com/compute/v1/projects/internal-test-prj-ly/regions/us-central1/subnetworks/apigee-network",
+				"https://www.googleapis.com/compute/v1/projects/internal-test-prj-ly/regions/us-west1/subnetworks/apigee-network",
+				"https://www.googleapis.com/compute/v1/projects/internal-test-prj-ly/regions/us-west2/subnetworks/apigee-network",
+				"https://www.googleapis.com/compute/v1/projects/internal-test-prj-ly/regions/europe-west1/subnetworks/apigee-network",
+				"https://www.googleapis.com/compute/v1/projects/internal-test-prj-ly/regions/australia-southeast1/subnetworks/apigee-network",
+				"https://www.googleapis.com/compute/v1/projects/internal-test-prj-ly/regions/us-east1/subnetworks/apigee-network",
+				"https://www.googleapis.com/compute/v1/projects/internal-test-prj-ly/regions/europe-west3/subnetworks/apigee-network",
+				"https://www.googleapis.com/compute/v1/projects/internal-test-prj-ly/regions/us-west4/subnetworks/apigee-network",
+				"https://www.googleapis.com/compute/v1/projects/internal-test-prj-ly/regions/europe-north1/subnetworks/apigee-network",
+				"https://www.googleapis.com/compute/v1/projects/internal-test-prj-ly/regions/us-east4/subnetworks/apigee-network",
+				"https://www.googleapis.com/compute/v1/projects/internal-test-prj-ly/regions/us-west3/subnetworks/apigee-network",
+				"https://www.googleapis.com/compute/v1/projects/internal-test-prj-ly/regions/asia-southeast1/subnetworks/apigee-network",
+				"https://www.googleapis.com/compute/v1/projects/internal-test-prj-ly/regions/europe-west4/subnetworks/apigee-network",
+				"https://www.googleapis.com/compute/v1/projects/internal-test-prj-ly/regions/us-central2/subnetworks/apigee-network",
+				"https://www.googleapis.com/compute/v1/projects/internal-test-prj-ly/regions/us-east5/subnetworks/apigee-network",
+				"https://www.googleapis.com/compute/v1/projects/internal-test-prj-ly/regions/asia-northeast1/subnetworks/apigee-network",
+			],
+		},
+	},
+}

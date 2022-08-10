@@ -1,0 +1,10 @@
+{
+	"records": [
+		{
+			"key": "apigee_instance_mandate.sentinel",
+			"source": "./apigee_instance_mandate.sentinel",
+			"sourceSum": "",
+			"dest": "/home/gavula/ApigeeX/policies/apigee_instance_mandate.sentinel"
+		}
+	]
+}

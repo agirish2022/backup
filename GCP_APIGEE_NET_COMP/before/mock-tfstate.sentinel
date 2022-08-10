@@ -1,0 +1,65 @@
+import "strings"
+import "types"
+
+outputs = {}
+
+_modules = {
+	"root": {
+		"data": {},
+		"path": [],
+		"resources": {
+			"google_compute_network": {
+				"apigee_network1": {
+					0: {
+						"attr": {
+							"auto_create_subnetworks":         true,
+							"delete_default_routes_on_create": false,
+							"description":                     "",
+							"enable_ula_internal_ipv6":        false,
+							"gateway_ipv4":                    "",
+							"id":                              "projects/internal-test-prj-ly/global/networks/elak-network",
+							"internal_ipv6_range": "",
+							"mtu":          0,
+							"name":         "elak-network",
+							"project":      "internal-test-prj-ly",
+							"routing_mode": "REGIONAL",
+							"self_link":    "https://www.googleapis.com/compute/v1/projects/internal-test-prj-ly/global/networks/elak-network",
+							"timeouts":     null,
+						},
+						"depends_on": [],
+						"id":         "projects/internal-test-prj-ly/global/networks/elak-network",
+						"tainted":    false,
+					},
+				},
+			},
+		},
+	},
+}
+
+module_paths = [
+	[],
+]
+
+terraform_version = "1.2.5"
+
+module = func(path) {
+	if types.type_of(path) is not "list" {
+		error("expected list, got", types.type_of(path))
+	}
+
+	if length(path) < 1 {
+		return _modules.root
+	}
+
+	addr = []
+	for path as p {
+		append(addr, "module")
+		append(addr, p)
+	}
+
+	return _modules[strings.join(addr, ".")]
+}
+
+data = _modules.root.data
+path = _modules.root.path
+resources = _modules.root.resources

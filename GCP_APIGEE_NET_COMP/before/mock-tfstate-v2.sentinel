@@ -1,0 +1,33 @@
+terraform_version = "1.2.5"
+
+outputs = {}
+
+resources = {
+	"google_compute_network.apigee_network1": {
+		"address":        "google_compute_network.apigee_network1",
+		"depends_on":     [],
+		"deposed_key":    "",
+		"index":          null,
+		"mode":           "managed",
+		"module_address": "",
+		"name":           "apigee_network1",
+		"provider_name":  "registry.terraform.io/hashicorp/google",
+		"tainted":        false,
+		"type":           "google_compute_network",
+		"values": {
+			"auto_create_subnetworks":         true,
+			"delete_default_routes_on_create": false,
+			"description":                     "",
+			"enable_ula_internal_ipv6":        false,
+			"gateway_ipv4":                    "",
+			"id":                              "projects/internal-test-prj-ly/global/networks/elak-network",
+			"internal_ipv6_range": "",
+			"mtu":          0,
+			"name":         "elak-network",
+			"project":      "internal-test-prj-ly",
+			"routing_mode": "REGIONAL",
+			"self_link":    "https://www.googleapis.com/compute/v1/projects/internal-test-prj-ly/global/networks/elak-network",
+			"timeouts":     null,
+		},
+	},
+}

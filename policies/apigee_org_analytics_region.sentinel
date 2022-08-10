@@ -1,0 +1,27 @@
+import "tfplan-functions" as plan
+import "tfconfig/v2" as tfconfig
+import "strings"
+import "types"
+
+allGoogleApigeeOrganizationInstances = plan.find_resources("google_apigee_organization")
+
+# Resource google_apigee_organization
+# Policy 1 - google_apigee_organization.analytics_region
+
+violations_apigee_org_analytics_region_policy = {}
+for allGoogleApigeeOrganizationInstances as address, rc {
+	apigee_org_analytics_region_policy = plan.evaluate_attribute(rc, "analytics_region")
+	if types.type_of(apigee_org_analytics_region_policy) is "undefined" or types.type_of(apigee_org_analytics_region_policy) is "null" {
+		violations_apigee_org_analytics_region_policy[address] = rc
+		print("The value for apigee_org_analytics_region_policy in Resource " + address + " can't be null or undefined")
+	} else {
+		if length(apigee_org_analytics_region_policy) == 0 {
+			violations_apigee_org_analytics_region_policy[address] = rc
+			print("Length of apigee_org_analytics_region_policy in Resource " + address + " must be greater then zero")
+		}
+	}
+}
+
+GCP_APIGEE_REGION = rule { length(violations_apigee_org_analytics_region_policy) is 0 }
+
+main = rule { GCP_APIGEE_REGION }

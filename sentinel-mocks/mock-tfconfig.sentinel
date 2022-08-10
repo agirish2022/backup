@@ -1,0 +1,310 @@
+import "strings"
+import "types"
+
+_modules = {
+	"root": {
+		"data": {
+			"google_project": {
+				"project": {
+					"config":       {},
+					"provisioners": null,
+					"references":   {},
+				},
+			},
+		},
+		"modules": {},
+		"outputs": {},
+		"providers": {
+			"google": {
+				"alias": {
+					"": {
+						"config": {},
+						"references": {
+							"project": [
+								"var.project_id",
+							],
+						},
+						"version": "",
+					},
+				},
+				"config": {},
+				"references": {
+					"project": [
+						"var.project_id",
+					],
+				},
+				"version": "",
+			},
+		},
+		"resources": {
+			"google_apigee_envgroup": {
+				"env_grp_dev": {
+					"config": {
+						"hostnames": [
+							"grp.test.com",
+						],
+						"name": "tf-dev-internal",
+					},
+					"provisioners": null,
+					"references": {
+						"hostnames": [],
+						"name":      [],
+						"org_id": [
+							"google_apigee_organization.apigeex_org.id",
+							"google_apigee_organization.apigeex_org",
+						],
+					},
+				},
+			},
+			"google_apigee_environment": {
+				"apigee_org_region_env": {
+					"config": {
+						"description":  "apigee-env-dev",
+						"display_name": "apigee-env-dev",
+						"name":         "apigee-env-dev",
+					},
+					"provisioners": null,
+					"references": {
+						"description":  [],
+						"display_name": [],
+						"name":         [],
+						"org_id": [
+							"google_apigee_organization.apigeex_org.id",
+							"google_apigee_organization.apigeex_org",
+						],
+					},
+				},
+			},
+			"google_apigee_instance": {
+				"apigee_instance": {
+					"config": {
+						"location": "us-east1",
+						"name":     "apigee-org-instance-us-east1",
+					},
+					"provisioners": null,
+					"references": {
+						"location": [],
+						"name":     [],
+						"org_id": [
+							"google_apigee_organization.apigeex_org.id",
+							"google_apigee_organization.apigeex_org",
+						],
+					},
+				},
+			},
+			"google_apigee_instance_attachment": {
+				"apigee_instance_attachment": {
+					"config":       {},
+					"provisioners": null,
+					"references": {
+						"environment": [
+							"google_apigee_environment.apigee_org_region_env.name",
+							"google_apigee_environment.apigee_org_region_env",
+						],
+						"instance_id": [
+							"google_apigee_instance.apigee_instance.id",
+							"google_apigee_instance.apigee_instance",
+						],
+					},
+				},
+			},
+			"google_apigee_organization": {
+				"apigeex_org": {
+					"config": {
+						"analytics_region": "us-east1",
+					},
+					"provisioners": null,
+					"references": {
+						"analytics_region": [],
+						"authorized_network": [
+							"google_compute_network.apigee_network.id",
+							"google_compute_network.apigee_network",
+						],
+						"project_id": [
+							"var.project_id",
+						],
+					},
+				},
+			},
+			"google_compute_forwarding_rule": {
+				"apigee_ilb_target_service": {
+					"config": {
+						"all_ports":             true,
+						"load_balancing_scheme": "INTERNAL",
+						"name":                  "apigee-forwarding-rule",
+						"region":                "us-east1",
+					},
+					"provisioners": null,
+					"references": {
+						"all_ports": [],
+						"backend_service": [
+							"google_compute_region_backend_service.producer_service_backend.id",
+							"google_compute_region_backend_service.producer_service_backend",
+						],
+						"load_balancing_scheme": [],
+						"name":                  [],
+						"network": [
+							"google_compute_network.apigee_network.id",
+							"google_compute_network.apigee_network",
+						],
+						"project": [
+							"var.project_id",
+						],
+						"region": [],
+					},
+				},
+			},
+			"google_compute_global_address": {
+				"apigee_range": {
+					"config": {
+						"address_type":  "INTERNAL",
+						"name":          "apigee-range",
+						"prefix_length": 16,
+						"purpose":       "VPC_PEERING",
+					},
+					"provisioners": null,
+					"references": {
+						"address_type": [],
+						"name":         [],
+						"network": [
+							"google_compute_network.apigee_network.id",
+							"google_compute_network.apigee_network",
+						],
+						"prefix_length": [],
+						"purpose":       [],
+					},
+				},
+			},
+			"google_compute_health_check": {
+				"producer_service_health_check": {
+					"config": {
+						"check_interval_sec": 1,
+						"name":               "producer-service-health-check",
+						"tcp_health_check": [
+							{
+								"port": "80",
+							},
+						],
+						"timeout_sec": 1,
+					},
+					"provisioners": null,
+					"references": {
+						"check_interval_sec": [],
+						"name":               [],
+						"project": [
+							"var.project_id",
+						],
+						"tcp_health_check": [
+							{
+								"port": [],
+							},
+						],
+						"timeout_sec": [],
+					},
+				},
+			},
+			"google_compute_network": {
+				"apigee_network": {
+					"config": {
+						"name": "apigee-network",
+					},
+					"provisioners": null,
+					"references": {
+						"name": [],
+					},
+				},
+			},
+			"google_compute_region_backend_service": {
+				"producer_service_backend": {
+					"config": {
+						"name":   "producer-service",
+						"region": "us-east1",
+					},
+					"provisioners": null,
+					"references": {
+						"health_checks": [
+							"google_compute_health_check.producer_service_health_check.id",
+							"google_compute_health_check.producer_service_health_check",
+						],
+						"name": [],
+						"project": [
+							"var.project_id",
+						],
+						"region": [],
+					},
+				},
+			},
+			"google_project_service": {
+				"apis": {
+					"config": {
+						"disable_on_destroy": false,
+					},
+					"provisioners": null,
+					"references": {
+						"disable_on_destroy": [],
+						"project": [
+							"var.project_id",
+						],
+						"service": [
+							"each.key",
+						],
+					},
+				},
+			},
+			"google_service_networking_connection": {
+				"apigee_vpc_connection": {
+					"config": {
+						"service": "servicenetworking.googleapis.com",
+					},
+					"provisioners": null,
+					"references": {
+						"network": [
+							"google_compute_network.apigee_network.id",
+							"google_compute_network.apigee_network",
+						],
+						"reserved_peering_ranges": [
+							"google_compute_global_address.apigee_range.name",
+							"google_compute_global_address.apigee_range",
+						],
+						"service": [],
+					},
+				},
+			},
+		},
+		"variables": {
+			"project_id": {
+				"default":     null,
+				"description": "",
+			},
+		},
+	},
+}
+
+module_paths = [
+	[],
+]
+
+module = func(path) {
+	if types.type_of(path) is not "list" {
+		error("expected list, got", types.type_of(path))
+	}
+
+	if length(path) < 1 {
+		return _modules.root
+	}
+
+	addr = []
+	for path as p {
+		append(addr, "module")
+		append(addr, p)
+	}
+
+	return _modules[strings.join(addr, ".")]
+}
+
+data = _modules.root.data
+modules = _modules.root.modules
+providers = _modules.root.providers
+resources = _modules.root.resources
+variables = _modules.root.variables
+outputs = _modules.root.outputs

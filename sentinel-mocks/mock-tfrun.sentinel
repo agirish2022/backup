@@ -1,0 +1,37 @@
+id = "run-CwTSf71FB8iH4LpQ"
+created_at = "2022-07-26T11:12:05.293Z"
+message = "Triggered via UI"
+commit_sha = "5ba2182968365b32b6306c82e898b250d21d36fd"
+speculative = true
+is_destroy = false
+refresh = true
+refresh_only = false
+replace_addrs = null
+target_addrs = null
+
+variables = {
+	"GOOGLE_OAUTH_ACCESS_TOKEN": {
+		"category":  "env",
+		"sensitive": true,
+	},
+}
+
+organization = {
+	"name": "Atos-global",
+}
+
+workspace = {
+	"auto_apply":  false,
+	"created_at":  "2022-07-26T11:02:50.404Z",
+	"description": null,
+	"id":          "ws-Vdrx1zgMJZ4PD1KX",
+	"name":        "apigeex",
+	"tags":        [],
+	"vcs_repo": {
+		"branch":             "",
+		"display_identifier": "ElakkiyaChezhian/apigeex",
+		"identifier":         "ElakkiyaChezhian/apigeex",
+		"ingress_submodules": false,
+	},
+	"working_directory": "",
+}

@@ -1,0 +1,101 @@
+terraform_version = "1.2.6"
+
+planned_values = {
+	"outputs":   {},
+	"resources": {},
+}
+
+variables = {
+	"google_apigee_envgroup": {
+		"name":  "google_apigee_envgroup",
+		"value": "tf-dev-internal",
+	},
+	"google_apigee_environment": {
+		"name":  "google_apigee_environment",
+		"value": "apigee-env-dev",
+	},
+	"google_compute_forwarding_rule": {
+		"name":  "google_compute_forwarding_rule",
+		"value": "apigee-forwarding-rule",
+	},
+	"google_compute_global_address": {
+		"name":  "google_compute_global_address",
+		"value": "apigee-range",
+	},
+	"google_compute_health_check": {
+		"name":  "google_compute_health_check",
+		"value": "producer-service-health-check",
+	},
+	"google_compute_region_backend_service": {
+		"name":  "google_compute_region_backend_service",
+		"value": "producer-service",
+	},
+	"network": {
+		"name":  "network",
+		"value": "apigee-network",
+	},
+	"project_id": {
+		"name":  "project_id",
+		"value": "internal-test-prj-ly",
+	},
+	"region": {
+		"name":  "region",
+		"value": "us-east1",
+	},
+}
+
+resource_changes = {}
+
+output_changes = {}
+
+raw = {
+	"configuration": {
+		"root_module": {
+			"variables": {
+				"google_apigee_envgroup":                {},
+				"google_apigee_environment":             {},
+				"google_compute_forwarding_rule":        {},
+				"google_compute_global_address":         {},
+				"google_compute_health_check":           {},
+				"google_compute_region_backend_service": {},
+				"network":    {},
+				"project_id": {},
+				"region":     {},
+			},
+		},
+	},
+	"format_version": "1.1",
+	"planned_values": {
+		"root_module": {},
+	},
+	"terraform_version": "1.2.6",
+	"variables": {
+		"google_apigee_envgroup": {
+			"value": "tf-dev-internal",
+		},
+		"google_apigee_environment": {
+			"value": "apigee-env-dev",
+		},
+		"google_compute_forwarding_rule": {
+			"value": "apigee-forwarding-rule",
+		},
+		"google_compute_global_address": {
+			"value": "apigee-range",
+		},
+		"google_compute_health_check": {
+			"value": "producer-service-health-check",
+		},
+		"google_compute_region_backend_service": {
+			"value": "producer-service",
+		},
+		"network": {
+			"value": "apigee-network",
+		},
+		"project_id": {
+			"value": "internal-test-prj-ly",
+		},
+		"region": {
+			"value": "us-east1",
+		},
+	},
+}

@@ -1,0 +1,24 @@
+import "tfplan-functions" as plan
+import "strings"
+import "types"
+
+allGoogleApigeeInstances = plan.find_resources("google_apigee_instance")
+allGoogleApigeeEnvironment = plan.find_resources("google_apigee_environment")
+allGoogleApigeeInstanceAttachment = plan.find_resources("google_apigee_instance_attachment")
+allGoogleApigeeEnvgroup = plan.find_resources("google_apigee_envgroup")
+
+# Resource google_apigee_instance   
+# Policy 1 - GCP_APIGEE_COMPONENTS
+
+violations_apigee_instance_mandate_policy = {}
+
+if length(allGoogleApigeeInstances) > 0 {
+	if length(allGoogleApigeeEnvironment) == 0 or length(allGoogleApigeeInstanceAttachment) == 0 or length(allGoogleApigeeEnvgroup) == 0 {
+			violations_apigee_instance_mandate_policy = "Mandatory resources need to be created"
+			print("Resources google_apigee_envgroup, google_apigee_environment, google_apigee_instance_attachment are not mandatory but without them we will not have a functional apigee instance.")
+		}
+}
+
+GCP_APIGEE_COMPONENTS = rule { length(violations_apigee_instance_mandate_policy) is 0 }
+
+main = rule { GCP_APIGEE_COMPONENTS }

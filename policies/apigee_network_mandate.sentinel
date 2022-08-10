@@ -1,0 +1,112 @@
+import "tfplan-functions" as plan
+import "tfconfig/v2" as tfconfig2
+import "tfconfig-functions" as tfconfig
+import "strings"
+import "types"
+
+# Resource google_apigee_organization, google_compute_global_address, google_compute_forwarding_rule   
+# Policy 1 - GCP_APIGEE_NET_COMP
+
+#Plan
+allGoogleApigeeOrganization = plan.find_resources("google_apigee_organization")
+allGoogleComputeGlobalAddress = plan.find_resources("google_compute_global_address")
+allGoogleComputeForwardingRule = plan.find_resources("google_compute_forwarding_rule")
+
+violations_apigee_network_mandate_policy = {}
+
+#print("allGoogleApigeeOrganization   - ",allGoogleApigeeOrganization)
+#print("allGoogleComputeGlobalAddress   - ",allGoogleComputeGlobalAddress)
+#print("allGoogleComputeForwardingRule   - ",allGoogleComputeForwardingRule)
+
+rc_authorized_network					=	""
+rc_compute_global_address_network		=	""
+rc_compute_forwarding_rule_network		=	""
+
+unknown_authorized_network				=	""
+unknown_compute_global_address_network	=	""
+unknown_compute_forwarding_rule_network	=	""
+
+for allGoogleApigeeOrganization as address, rc {
+	rc_authorized_network = plan.evaluate_attribute(rc, "authorized_network")
+	unknown_authorized_network = plan.evaluate_attribute(rc.change.after_unknown, "authorized_network")
+	
+	print("rc_authorized_network -", rc_authorized_network)
+	print("unknown_authorized_network -", unknown_authorized_network)
+}
+
+for allGoogleComputeGlobalAddress as address, rc {
+	rc_compute_global_address_network = plan.evaluate_attribute(rc, "network")
+	unknown_compute_global_address_network = plan.evaluate_attribute(rc.change.after_unknown, "network")
+
+	print("rc_compute_global_address_network -", rc_compute_global_address_network)
+	print("unknown_compute_global_address_network -", unknown_compute_global_address_network)
+}
+
+for allGoogleComputeForwardingRule as address, rc {
+	rc_compute_forwarding_rule_network = plan.evaluate_attribute(rc, "network")
+	unknown_compute_forwarding_rule_network = plan.evaluate_attribute(rc.change.after_unknown, "network")
+
+	print("rc_compute_forwarding_rule_network -", rc_compute_forwarding_rule_network)
+	print("unknown_compute_forwarding_rule_network -", unknown_compute_forwarding_rule_network)
+}
+
+#tfconfig & tfstate
+find_resources_tfconfig = func(type) {
+	resources = filter tfconfig2.resources as address, r {
+		r.type is type
+	}
+	return resources
+}
+
+#Config
+allGoogleApigeeOrganization_tfconfig = find_resources_tfconfig("google_apigee_organization")
+allGoogleComputeGlobalAddress_tfconfig = find_resources_tfconfig("google_compute_global_address")
+allGoogleComputeForwardingRule_tfconfig = find_resources_tfconfig("google_compute_forwarding_rule")
+#print("allGoogleApigeeOrganization_tfconfig   - ",allGoogleApigeeOrganization_tfconfig)
+#print("allGoogleComputeGlobalAddress_tfconfig   - ",allGoogleComputeGlobalAddress_tfconfig)
+#print("allGoogleComputeForwardingRule_tfconfig   - ",allGoogleComputeForwardingRule_tfconfig)
+
+googleApigeeOrganization_ref=""
+googleComputeGlobalAddress_ref=""
+googleComputeForwardingRule_ref=""
+for allGoogleApigeeOrganization_tfconfig as address, rc {
+	googleApigeeOrganization_ref = rc.config.authorized_network.references[0]
+}
+for allGoogleComputeGlobalAddress_tfconfig as address, rc {
+	googleComputeGlobalAddress_ref = rc.config.network.references[0]
+}
+for allGoogleComputeForwardingRule_tfconfig as address, rc {
+	googleComputeForwardingRule_ref = rc.config.network.references[0]
+}
+print("googleApigeeOrganization_ref   - ",googleApigeeOrganization_ref)
+print("googleComputeGlobalAddress_ref   - ",googleComputeGlobalAddress_ref)
+print("googleComputeForwardingRule_ref   - ",googleComputeForwardingRule_ref)
+
+if length(allGoogleApigeeOrganization) > 0 and length(allGoogleComputeGlobalAddress) > 0 and length(allGoogleComputeForwardingRule) > 0 {
+	if types.type_of(rc_authorized_network) is "null" and types.type_of(rc_compute_global_address_network) is "null" and types.type_of(rc_compute_forwarding_rule_network) is "null"{
+		if ((googleApigeeOrganization_ref != googleComputeGlobalAddress_ref) or (googleComputeGlobalAddress_ref != googleComputeForwardingRule_ref) or (googleApigeeOrganization_ref != googleComputeForwardingRule_ref)){
+			violations_apigee_network_mandate_policy = "Resources networks must be the same in order to have PSC attachment to the network  project."
+			print("All of these networks of google_apigee_organization, google_compute_global_address and google_compute_forwarding_rule resources be the same in order to have PSC attachment to the network project.")
+		}
+	} else if types.type_of(unknown_authorized_network) is "null" and types.type_of(unknown_compute_global_address_network) is "null" and types.type_of(unknown_compute_forwarding_rule_network) is "null" {
+		if (rc_authorized_network contains "/") and (rc_compute_global_address_network contains "/") and (rc_compute_forwarding_rule_network contains "/") {		
+			if (strings.split(rc_authorized_network, "/")[-1] != strings.split(rc_compute_global_address_network, "/")[-1]) or (strings.split(rc_compute_global_address_network, "/")[-1] != strings.split(rc_compute_forwarding_rule_network, "/")[-1]) or (strings.split(rc_authorized_network, "/")[-1] != strings.split(rc_compute_forwarding_rule_network, "/")[-1]){
+				violations_apigee_network_mandate_policy = "Resources networks must be the same in order to have PSC attachment to the network  project."
+				print("All of these networks of google_apigee_organization, google_compute_global_address and google_compute_forwarding_rule resources be the same in order to have PSC attachment to the network project.")
+			}
+		} else {
+			if (rc_authorized_network != rc_compute_global_address_network) or (rc_compute_global_address_network != rc_compute_forwarding_rule_network) or (rc_authorized_network != rc_compute_forwarding_rule_network){
+				violations_apigee_network_mandate_policy = "Resources networks must be the same in order to have PSC attachment to the network  project."
+				print("All of these networks of google_apigee_organization, google_compute_global_address and google_compute_forwarding_rule resources be the same in order to have PSC attachment to the network project.")
+			}
+		}
+	} else {
+		if (rc_authorized_network != rc_compute_global_address_network) or (rc_compute_global_address_network != rc_compute_forwarding_rule_network) or (rc_authorized_network != rc_compute_forwarding_rule_network){
+				violations_apigee_network_mandate_policy = "Resources networks must be the same in order to have PSC attachment to the network  project."
+				print("All of these networks of google_apigee_organization, google_compute_global_address and google_compute_forwarding_rule resources be the same in order to have PSC attachment to the network project.")
+			}
+	}
+}
+GCP_APIGEE_NET_COMP = rule { length(violations_apigee_network_mandate_policy) is 0 }
+
+main = rule { GCP_APIGEE_NET_COMP }
